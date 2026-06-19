@@ -30,36 +30,47 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
-  },
-  {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/calendar",
+    path: "/",
   },
   {
     icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
+    name: "Lead Generation",
+    path: "/lead-generation",
   },
-
   {
-    name: "Forms",
     icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
+    name: "Social Media Approval Portal",
+    path: "/social-media-approval",
   },
   {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  },
-  {
-    name: "Pages",
     icon: <PageIcon />,
-    subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
-    ],
+    name: "AI Content Calendar Generator",
+    path: "/ai-content-calendar",
+  },
+  {
+    icon: <TableIcon />,
+    name: "Client Onboarding Portal",
+    path: "/client-onboarding",
+  },
+  {
+    icon: <PieChartIcon />,
+    name: "Influencer Campaign Tracker",
+    path: "/influencer-campaign-tracker",
+  },
+  {
+    icon: <UserCircleIcon />,
+    name: "CRM Dashboard",
+    path: "/crm",
+  },
+  {
+    icon: <GridIcon />,
+    name: "Project Management",
+    path: "/project-management",
+  },
+  {
+    icon: <ListIcon />,
+    name: "Helpdesk Support",
+    path: "/helpdesk",
   },
 ];
 
@@ -310,25 +321,15 @@ const AppSidebar: React.FC = () => {
       >
         <Link href="/">
           {isExpanded || isHovered || isMobileOpen ? (
-            <>
-              <Image
-                className="dark:hidden"
-                src="/images/logo/logo.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-              <Image
-                className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-            </>
+            <Image
+              src="/images/logo/logo.png"
+              alt="Logo"
+              width={150}
+              height={40}
+            />
           ) : (
             <Image
-              src="/images/logo/logo-icon.svg"
+              src="/images/logo/favicon.png"
               alt="Logo"
               width={32}
               height={32}
@@ -356,22 +357,6 @@ const AppSidebar: React.FC = () => {
               {renderMenuItems(navItems, "main")}
             </div>
 
-            <div className="">
-              <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
-                  !isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
-                }`}
-              >
-                {isExpanded || isHovered || isMobileOpen ? (
-                  "Others"
-                ) : (
-                  <HorizontaLDots />
-                )}
-              </h2>
-              {renderMenuItems(othersItems, "others")}
-            </div>
           </div>
         </nav>
         {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null}

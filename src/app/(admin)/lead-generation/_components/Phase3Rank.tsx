@@ -1,0 +1,216 @@
+"use client";
+
+import { useMemo } from "react";
+import { motion } from "framer-motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/app/(admin)/lead-generation/_components/ui/card";
+import { Button } from "@/app/(admin)/lead-generation/_components/ui/button";
+import { Badge } from "@/app/(admin)/lead-generation/_components/ui/badge";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/app/(admin)/lead-generation/_components/ui/table";
+import { PhaseShell } from "./PhaseShell";
+import { IncompleteState } from "./IncompleteState";
+import { Crown, IndianRupee, DollarSign, MessageCircle, Phone, Mail } from "lucide-react";
+import type { Lead, AuditResult, RankedLead } from "@/app/(admin)/lead-generation/_lib/types";
+import { scoreLead } from "@/app/(admin)/lead-generation/_lib/scoring";
+
+export function Phase3Rank({
+  leads,
+  audits,
+  selectedId,
+  setSelectedId,
+  onNext,
+  onPrev,
+}: {
+  leads: Lead[];
+  audits: Record<string, AuditResult>;
+  selectedId: string | null;
+  setSelectedId: (id: string | null) => void;
+  onNext: () => void;
+  onPrev: () => void;
+}) {
+  const ranked: RankedLead[] = useMemo(() => {
+    return leads
+      .filter((l) => audits[l.id])
+      .map((l) => scoreLead(l, audits[l.id]))
+      .sort((a, b) => b.score - a.score);
+  }, [leads, audits]);
+
+  if (ranked.length === 0) {
+    return (
+      <PhaseShell
+        title="Phase 3 — AI Ranked Prospects"
+        subtitle="Gemini analyzes site quality, review volume, and industry fit to mathematically rank conversion likelihood."
+        onPrev={onPrev}
+        onNext={onNext}
+        nextDisabled
+        nextLabel="Outreach"
+      >
+        <IncompleteState
+          title={leads.length === 0 ? "No leads scraped yet" : "No audits yet"}
+          description={
+            leads.length === 0
+              ? "Phases 1 and 2 haven't been run. After scraping and auditing leads, Gemini will rank each by conversion potential."
+              : "Run an audit in Phase 2 first. Once audited, Gemini mathematically scores them on conversion potential — then sorts for the highest likelihood of buying a website."
+          }
+          prevPhaseLabel={leads.length === 0 ? "Scrape" : "Audit"}
+          onPrev={onPrev}
+        />
+      </PhaseShell>
+    );
+  }
+
+  return (
+    <PhaseShell
+      title="Phase 3 — AI Ranked Prospects"
+      subtitle="Gemini analyzes site quality, review volume, and industry fit to mathematically rank conversion likelihood."
+      onPrev={onPrev}
+      onNext={onNext}
+      nextDisabled={!selectedId}
+      nextLabel="Outreach"
+    >
+      <div className="grid lg:grid-cols-3 gap-4 mb-4">
+        {ranked.slice(0, 3).map((lead, i) => (
+          <motion.div
+            key={lead.id}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: i * 0.1 }}
+          >
+            <Card
+              role="button"
+              tabIndex={0}
+              aria-pressed={selectedId === lead.id}
+              aria-label={`Select rank ${i + 1}: ${lead.name}`}
+              onClick={() => setSelectedId(lead.id)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setSelectedId(lead.id);
+                }
+              }}
+              className={`cursor-pointer transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background hover:-translate-y-0.5 ${selectedId === lead.id
+                  ? "ring-1 ring-primary border-primary/30"
+                  : "hover:border-primary/30"
+                }`}
+            >
+              <CardHeader>
+                <div className="flex items-start justify-between">
+                  <CardTitle className="text-sm flex items-center gap-2 font-medium tracking-wide uppercase text-muted-foreground">
+                    <Crown className="h-3.5 w-3.5 text-[color:var(--accent-red)]" strokeWidth={1.5} />
+                    Rank · {String(i + 1).padStart(2, "0")}
+                  </CardTitle>
+                  <div className={`text-3xl tabular-nums leading-none font-[900] tracking-tight ${lead.score < 50 ? "text-red-600" : lead.score < 90 ? "text-amber-500" : "text-emerald-500"
+                    }`}>{lead.score}</div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="font-medium text-base leading-snug">{lead.name}</div>
+                <div className="text-xs text-muted-foreground mt-1">{lead.address}</div>
+                <div className="mt-4 flex items-center gap-3 text-xs">
+                  <span className="flex items-center gap-1">
+                    {lead.audit.currency === "USD" ? (
+                      <DollarSign className="h-3 w-3 text-muted-foreground" />
+                    ) : (
+                      <IndianRupee className="h-3 w-3 text-muted-foreground" />
+                    )}
+                    {lead.audit.estLostRevenuePerMonth.toLocaleString(lead.audit.currency === "USD" ? "en-US" : "en-IN")}/mo
+                  </span>
+                  <span className="text-border">·</span>
+                  <span className="text-muted-foreground">{lead.reviewsCount} reviews</span>
+                </div>
+                <div className="mt-3 flex gap-1.5">
+                  {lead.phone && <Phone className="h-3.5 w-3.5 text-muted-foreground" strokeWidth={1.5} />}
+                  {lead.whatsapp && <MessageCircle className="h-3.5 w-3.5 text-[color:var(--accent-foreground)]" strokeWidth={1.5} />}
+                  {lead.email && <Mail className="h-3.5 w-3.5 text-muted-foreground" strokeWidth={1.5} />}
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>All ranked</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-10">#</TableHead>
+                  <TableHead>Business</TableHead>
+                  <TableHead className="w-[260px]">AI Score</TableHead>
+                  <TableHead>Lost / mo</TableHead>
+                  <TableHead>Site</TableHead>
+                  <TableHead className="text-right">Select</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {ranked.map((lead, i) => (
+                  <motion.tr
+                    key={lead.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: i * 0.04 }}
+                    aria-selected={selectedId === lead.id}
+                    className={`border-b border-border cursor-pointer transition-colors duration-150 hover:bg-muted/40 ${selectedId === lead.id ? "bg-primary/5" : ""}`}
+                    onClick={() => setSelectedId(lead.id)}
+                  >
+                    <TableCell className="font-medium tabular-nums">{i + 1}</TableCell>
+                    <TableCell>
+                      <div className="font-medium">{lead.name}</div>
+                      <div className="text-xs text-muted-foreground">{lead.reviewsCount} reviews · {lead.rating}★</div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <div className="relative h-1.5 flex-1 rounded-full bg-muted overflow-hidden">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${lead.score}%` }}
+                            transition={{ duration: 0.8, delay: i * 0.05, ease: "easeOut" }}
+                            className={`h-full ${lead.score < 50 ? "bg-red-500" : lead.score < 90 ? "bg-amber-500" : "bg-emerald-500"}`}
+                          />
+                        </div>
+                        <span className={`font-mono text-sm font-bold tabular-nums w-9 text-right ${lead.score < 50 ? "text-red-600" : lead.score < 90 ? "text-amber-500" : "text-emerald-500"}`}>{lead.score}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="font-mono tabular-nums text-sm">
+                      {lead.audit.currency === "USD" ? "$" : "₹"}
+                      {lead.audit.estLostRevenuePerMonth.toLocaleString(lead.audit.currency === "USD" ? "en-US" : "en-IN")}
+                    </TableCell>
+                    <TableCell>
+                      {lead.audit.hasWebsite ? (
+                        <Badge variant="outline" className={`text-xs font-normal ${lead.audit.pageSpeedScore < 50
+                            ? "text-red-600 border-red-600/30 bg-red-600/10"
+                            : lead.audit.pageSpeedScore < 90
+                              ? "text-amber-600 border-amber-600/30 bg-amber-600/10"
+                              : "text-emerald-600 border-emerald-600/30 bg-emerald-600/10"
+                          }`}>{lead.audit.pageSpeedScore} PageSpeed</Badge>
+                      ) : (
+                        <Badge variant="outline" className="text-xs font-normal text-red-600 border-red-600/30 bg-red-600/10">None</Badge>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Button
+                        size="sm"
+                        variant={selectedId === lead.id ? "default" : "outline"}
+                        className={selectedId !== lead.id ? "text-muted-foreground hover:text-primary hover:border-primary/50 hover:bg-primary/5" : "shadow-md"}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedId(lead.id);
+                        }}
+                      >
+                        {selectedId === lead.id ? "Selected" : "Select"}
+                      </Button>
+                    </TableCell>
+                  </motion.tr>
+                ))}
+              </TableBody>
+            </Table>
+            {ranked.length === 0 && <div className="text-center py-12 text-sm text-muted-foreground">Run audit first</div>}
+          </div>
+        </CardContent>
+      </Card>
+    </PhaseShell>
+  );
+}
