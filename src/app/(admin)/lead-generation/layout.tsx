@@ -8,8 +8,8 @@ const jetbrainsMono = JetBrains_Mono({ variable: "--font-mono", subsets: ["latin
 
 export default function LeadGenLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div className={`${inter.variable} ${calistoga.variable} ${jetbrainsMono.variable} h-full antialiased lead-gen-theme`}>
-      <div className="min-h-full flex flex-col bg-background text-foreground font-sans">
+    <div className={`${inter.variable} ${calistoga.variable} ${jetbrainsMono.variable} h-full antialiased lead-gen-theme -mx-4 -mt-4 md:-mx-6 md:-mt-6`}>
+      <div className="min-h-full flex flex-col bg-background text-foreground font-sans p-4 md:p-6">
         {children}
         <Toaster position="bottom-right" />
       </div>
