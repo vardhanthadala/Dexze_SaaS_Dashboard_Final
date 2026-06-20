@@ -1,15 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, Search, FileSearch, Trophy, Sparkles, Send, Database } from "lucide-react";
+import { GridIcon, DocsIcon, ShootingStarIcon, PaperPlaneIcon, BoxCubeIcon, CheckLineIcon } from "@/icons";
 import { cn } from "@/app/(admin)/lead-generation/_lib/utils";
 
 const STEPS = [
-  { id: 1, label: "Scrape", icon: Search },
-  { id: 2, label: "Audit", icon: FileSearch },
-  { id: 3, label: "Rank", icon: Trophy },
-  { id: 5, label: "Outreach", icon: Send },
-  { id: 6, label: "Pipeline", icon: Database },
+  { id: 1, label: "Scrape", icon: GridIcon },
+  { id: 2, label: "Audit", icon: DocsIcon },
+  { id: 3, label: "Rank", icon: ShootingStarIcon },
+  { id: 5, label: "Outreach", icon: PaperPlaneIcon },
+  { id: 6, label: "Pipeline", icon: BoxCubeIcon },
 ];
 
 export function Stepper({
@@ -26,7 +26,8 @@ export function Stepper({
       <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground text-center mb-1.5">
         Step <span className="font-mono text-foreground">{String(STEPS.findIndex(s => s.id === current) + 1).padStart(2, "0")}</span> of <span className="font-mono">{String(STEPS.length).padStart(2, "0")}</span> · {STEPS.find(s => s.id === current)?.label}
       </div>
-      <div className="w-full flex items-center justify-between gap-2">
+      <div className="w-full overflow-x-auto scrollbar-hide">
+        <div className="flex items-center justify-between gap-2 min-w-[480px]">
         {STEPS.map((step, i) => {
           const isDone = completed.has(step.id);
           const isCurrent = current === step.id;
@@ -59,7 +60,9 @@ export function Stepper({
                         : "border-border text-muted-foreground",
                   )}
                 >
-                  {isDone && !isCurrent ? <Check className="h-4 w-4" strokeWidth={1.75} /> : <Icon className="h-4 w-4" strokeWidth={1.5} />}
+                  <span className="flex items-center justify-center scale-[0.8] origin-center">
+                    {isDone && !isCurrent ? <CheckLineIcon /> : <Icon />}
+                  </span>
                 </motion.div>
                 <span className={cn("text-[11px] tracking-wide uppercase", isCurrent ? "text-foreground font-medium" : "text-muted-foreground")}>
                   {String(i + 1).padStart(2, "0")} · {step.label}
@@ -79,6 +82,7 @@ export function Stepper({
             </div>
           );
         })}
+        </div>
       </div>
     </div>
   );

@@ -36,13 +36,12 @@ export function PhaseShell({
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
-          className="text-5xl sm:text-7xl text-foreground leading-[0.95] tracking-[-0.04em]"
-          style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', fontWeight: 900 }}
+          className="text-4xl sm:text-5xl text-foreground leading-tight tracking-[-0.02em] font-bold"
         >
           {title.split('—').map((part, i, arr) => (
             <span key={i}>
               {i === 1 ? (
-                <span className="text-[color:var(--accent-red)] italic font-[600] tracking-[-0.02em] pr-1">{part}</span>
+                <span className="text-[color:var(--primary)] font-semibold">{part}</span>
               ) : (
                 part
               )}

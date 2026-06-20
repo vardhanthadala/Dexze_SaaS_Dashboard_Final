@@ -50,74 +50,82 @@
 }
 
 .lead-gen-theme {
-  --background: #F4F2EC;
-  --foreground: #161616;
+  --background: #f9fafb;
+  --foreground: #101828;
   --card: #FFFFFF;
-  --card-foreground: #161616;
+  --card-foreground: #101828;
   --popover: #FFFFFF;
-  --popover-foreground: #161616;
-  --primary: #F24E31;
+  --popover-foreground: #101828;
+  --primary: #465fff;
   --primary-foreground: #FFFFFF;
-  --secondary: #EAE8E2;
-  --secondary-foreground: #161616;
-  --muted: #EAE8E2;
-  --muted-foreground: #767676;
-  --accent: #EAE8E2;
-  --accent-foreground: #161616;
-  --accent-red: #F24E31;
-  --destructive: #F24E31;
-  --border: #EAE8E2;
-  --input: #EAE8E2;
-  --ring: #161616;
-  --chart-1: #F24E31;
-  --chart-2: #161616;
-  --chart-3: #767676;
-  --chart-4: #EAE8E2;
+  --secondary: #f2f4f7;
+  --secondary-foreground: #101828;
+  --muted: #f2f4f7;
+  --muted-foreground: #667085;
+  --accent: #f2f4f7;
+  --accent-foreground: #101828;
+  --accent-red: #465fff;
+  --destructive: #f04438;
+  --border: #e4e7ec;
+  --input: #e4e7ec;
+  --ring: #465fff;
+  --chart-1: #465fff;
+  --chart-2: #101828;
+  --chart-3: #667085;
+  --chart-4: #e4e7ec;
   --chart-5: #FFFFFF;
   --radius: 0.5rem;
-  --sidebar: #F4F2EC;
-  --sidebar-foreground: #161616;
-  --sidebar-primary: #161616;
+  --sidebar: #f9fafb;
+  --sidebar-foreground: #101828;
+  --sidebar-primary: #101828;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #EAE8E2;
-  --sidebar-accent-foreground: #161616;
-  --sidebar-border: #EAE8E2;
-  --sidebar-ring: #161616;
+  --sidebar-accent: #f2f4f7;
+  --sidebar-accent-foreground: #101828;
+  --sidebar-border: #e4e7ec;
+  --sidebar-ring: #465fff;
 }
 
 .dark .lead-gen-theme {
-  --background: #111111;
+  --background: #0c111d;
   --foreground: #FFFFFF;
-  --card: #1C1C1C;
+  --card: #1d2939;
   --card-foreground: #FFFFFF;
-  --popover: #1C1C1C;
+  --popover: #1d2939;
   --popover-foreground: #FFFFFF;
-  --primary: #F24E31;
+  --primary: #7592ff;
   --primary-foreground: #FFFFFF;
-  --secondary: #2A2A2A;
+  --secondary: #344054;
   --secondary-foreground: #FFFFFF;
-  --muted: #2A2A2A;
-  --muted-foreground: #A0A0A0;
-  --accent: #2A2A2A;
+  --muted: #344054;
+  --muted-foreground: #98a2b3;
+  --accent: #344054;
   --accent-foreground: #FFFFFF;
-  --accent-red: #F24E31;
-  --destructive: #F24E31;
-  --border: #333333;
-  --input: #333333;
-  --ring: #FFFFFF;
-  --chart-1: #F24E31;
+  --accent-red: #7592ff;
+  --destructive: #f97066;
+  --border: #475467;
+  --input: #475467;
+  --ring: #7592ff;
+  --chart-1: #7592ff;
   --chart-2: #FFFFFF;
-  --chart-3: #A0A0A0;
-  --chart-4: #333333;
-  --chart-5: #1C1C1C;
-  --sidebar: #111111;
+  --chart-3: #98a2b3;
+  --chart-4: #475467;
+  --chart-5: #1d2939;
+  --sidebar: #0c111d;
   --sidebar-foreground: #FFFFFF;
   --sidebar-primary: #FFFFFF;
-  --sidebar-primary-foreground: #111111;
-  --sidebar-accent: #2A2A2A;
+  --sidebar-primary-foreground: #0c111d;
+  --sidebar-accent: #344054;
   --sidebar-accent-foreground: #FFFFFF;
-  --sidebar-border: #333333;
-  --sidebar-ring: #FFFFFF;
+  --sidebar-border: #475467;
+  --sidebar-ring: #7592ff;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }
 
 @layer base {
@@ -223,12 +231,12 @@
     background-color: var(--primary);
     border-radius: 50% 50% 50% 0;
     transform: rotate(-45deg);
-    box-shadow: 0 0 10px rgba(242, 78, 49, 0.5);
+    box-shadow: 0 0 10px rgba(70, 95, 255, 0.5);
     border: 2px solid white;
     z-index: 2;
   }
   .pin-wrapper.hovered .pin-drop {
-    box-shadow: 0 0 20px rgba(242, 78, 49, 0.8);
+    box-shadow: 0 0 20px rgba(70, 95, 255, 0.8);
   }
   .pin-pulse {
     position: absolute;
@@ -245,28 +253,28 @@
 
   /* Cluster Icon Customization */
   .marker-cluster-small {
-    background-color: rgba(242, 78, 49, 0.6) !important;
+    background-color: rgba(70, 95, 255, 0.6) !important;
   }
   .marker-cluster-small div {
-    background-color: rgba(242, 78, 49, 0.9) !important;
+    background-color: rgba(70, 95, 255, 0.9) !important;
     color: white !important;
     font-weight: bold;
     border: 2px solid white;
   }
   .marker-cluster-medium {
-    background-color: rgba(242, 78, 49, 0.6) !important;
+    background-color: rgba(70, 95, 255, 0.6) !important;
   }
   .marker-cluster-medium div {
-    background-color: rgba(242, 78, 49, 0.9) !important;
+    background-color: rgba(70, 95, 255, 0.9) !important;
     color: white !important;
     font-weight: bold;
     border: 2px solid white;
   }
   .marker-cluster-large {
-    background-color: rgba(242, 78, 49, 0.6) !important;
+    background-color: rgba(70, 95, 255, 0.6) !important;
   }
   .marker-cluster-large div {
-    background-color: rgba(242, 78, 49, 0.9) !important;
+    background-color: rgba(70, 95, 255, 0.9) !important;
     color: white !important;
     font-weight: bold;
     border: 2px solid white;
