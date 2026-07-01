@@ -39,7 +39,7 @@ const navItems: NavItem[] = [
   },
   {
     icon: <ListIcon />,
-    name: "Social Media Approval Portal",
+    name: "Client Onboarding Portal",
     path: "/social-media-approval",
   },
   {
@@ -47,11 +47,7 @@ const navItems: NavItem[] = [
     name: "AI Content Calendar Generator",
     path: "/ai-content-calendar",
   },
-  {
-    icon: <TableIcon />,
-    name: "Client Onboarding Portal",
-    path: "/client-onboarding",
-  },
+
   {
     icon: <PieChartIcon />,
     name: "Influencer Campaign Tracker",
